@@ -1,1 +1,47 @@
 Hello World
+
+<!-- a space for messaging -->
+<head>
+ABC Widgets Inc+
+</head>
+<body>
+<div>
+<p>ABC Widgets Inc+</p>
+</div>
+
+<div id="message"></div>
+
+<!-- any element with this class will get a button -->
+<div class="parallel-login-button"></div>
+
+<script src="https://app.parallelmarkets.com/sdk/v1/parallel.js"></script>
+<script>
+  // this example uses our "demo" sandbox
+  Parallel.init({ client_id: 'XpVFf2u4ln8TGh5yZmxzA', environment: 'demo' })
+
+  // on success - user agreed to share status
+  function success(result) {
+    document.getElementById("message").innerHTML = 'Thanks for sharing your info.'
+    // The result.authResponse.access_token and result.authResponse.refresh_token
+    // values could now be sent to your server if you want to make ongoing
+    // API calls from your server environment. For example:
+    // var body = JSON.stringify(result.authResponse)
+    // fetch('/save-tokens', { method: 'POST', body: body })
+  }
+
+  function failure(result) {
+    var msg = document.getElementById("message")
+    if (result.status == 'not_authorized') {
+      // the user denied access to their information
+      msg.innerHTML = 'Please consent to access to complete your ownboarding.'
+    } else {
+      // there was an issue in the configuration / OAuth process
+      console.error(result)
+      msg.innerHTML = 'Looks like there was an issue.'
+    }
+  }
+
+  Parallel.subscribeWithButton(success, failure)
+</script>
+</body>
+
